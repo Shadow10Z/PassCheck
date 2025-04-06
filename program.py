@@ -1,6 +1,13 @@
 import os
 from time import sleep
 
+'''
+* Function to read the password and its length requirements from a file.
+* The first line of the file should contain the password.
+* The second line should contain the minimum length.
+* The third line should contain the maximum length.
+* The function returns the password, minimum length, and maximum length.
+'''
 def read_parameters(file_path):
     with open(file_path, 'r') as file:
         lines = file.readlines()
@@ -12,6 +19,10 @@ def read_parameters(file_path):
         max_length = int(lines[2].strip())
     return password, min_length, max_length
 
+'''
+* Function to validate the password length based on the given minimum and maximum length.
+* The function returns True if the password length is valid, otherwise False.
+'''
 def validate_password(password, min_length, max_length):
     if min_length <= len(password) <= max_length:
         return True
@@ -27,6 +38,15 @@ def password_wordslist(password, file_path_rockyou):
     else:
         return False
 
+'''
+* Function to check the complexity of the password based on the following criteria:
+* 1. Length: At least 8 characters.
+* 2. Contains at least one digit.
+* 3. Contains at least one uppercase letter.
+* 4. Contains at least one lowercase letter.
+* 5. Contains at least one special character.
+* The function returns a message indicating the complexity level of the password.
+'''
 def check_password_complexity(password):
     count_complexity = 0
     conditions = [
@@ -56,6 +76,9 @@ def check_password_complexity(password):
     else:
         return "The password does not meet any complexity requirements."
 
+'''
+* Main function to execute the password validation program.
+'''
 def main():
     file_path_rockyou = os.path.join(os.path.dirname(__file__), 'rockyou.txt')
     file_path_input = input("Enter the file path: ")
@@ -74,7 +97,7 @@ def main():
             print("The password length is invalid.")
 
         print("Checking if password is common...")
-        common_password = password_wordslist(password, file_path_rockyou)
+        common_password = password_wordslist(password, file_path_rockyou) # Check if the password is in the common passwords list
         sleep(3)
         if common_password:
             print("The password is common.")
