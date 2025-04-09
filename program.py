@@ -1,12 +1,16 @@
 import os
 from time import sleep
+from hashlib import sha256
+from tkinter import *
+import tkinter as tk
+from tkinter import filedialog
 
 '''
 * Function to read the password and its length requirements from a file.
 * The first line of the file should contain the password.
 * The second line should contain the minimum length.
 * The third line should contain the maximum length.
-* The function returns the password, minimum length, and maximum length.
+* The function @returns the password, minimum length, and maximum length.
 '''
 def read_parameters(file_path):
     with open(file_path, 'r') as file:
@@ -21,7 +25,7 @@ def read_parameters(file_path):
 
 '''
 * Function to validate the password length based on the given minimum and maximum length.
-* The function returns True if the password length is valid, otherwise False.
+* The function @returns True if the password length is valid, otherwise False.
 '''
 def validate_password(password, min_length, max_length):
     if min_length <= len(password) <= max_length:
@@ -45,7 +49,7 @@ def password_wordslist(password, file_path_rockyou):
 * 3. Contains at least one uppercase letter.
 * 4. Contains at least one lowercase letter.
 * 5. Contains at least one special character.
-* The function returns a message indicating the complexity level of the password.
+* The function @returns a message indicating the complexity level of the password.
 '''
 def check_password_complexity(password):
     count_complexity = 0
@@ -76,37 +80,78 @@ def check_password_complexity(password):
     else:
         return "The password does not meet any complexity requirements."
 
+#TODO - Add a function to crack the password using brute force.
+'''
+def crack_password(password):
+    print(sha256(password.encode()).hexdigest())
+    sha256()
+'''
+
+'''
+* Function to open a file dialog and select a file.
+'''
+def choose_file():
+    filetypes = [("Text files", "*.txt"), ("All files", "*.*")]
+    file_path = filedialog.askopenfilename(title="Select a file", filetypes=filetypes)
+    if file_path:
+        print(f"Selected file: {file_path}")
+    else:
+        print("No file selected.")
+    return file_path
+
 '''
 * Main function to execute the password validation program.
 '''
 def main():
-    file_path_rockyou = os.path.join(os.path.dirname(__file__), 'rockyou.txt')
-    file_path_input = input("Enter the file path: ")
-    if not os.path.exists(file_path_input):
-        print(f"File does NOT exist: {file_path_input}")
-    else:
-        print(f"File FOUND: {file_path_input}")
     try:
 
-        print("Checking if password is valid...")
-        password, min_length, max_length = read_parameters(file_path_input)
-        sleep(3)
-        if validate_password(password, min_length, max_length):
-            print("The password length is valid.")
-        else:
-            print("The password length is invalid.")
+        window = Tk()
+        window.geometry("400x300")
+        window.title("Password Checker")
 
-        print("Checking if password is common...")
-        common_password = password_wordslist(password, file_path_rockyou) # Check if the password is in the common passwords list
-        sleep(3)
-        if common_password:
-            print("The password is common.")
-        else:
-            print("The password is not common.")
+        #icon = PhotoImage(file="logo.jpg")
+        #window.iconphoto(True, icon)
 
-        print("Checking the complexity of the password...")
-        sleep(3)
-        print(check_password_complexity(password))
+        lbl = tk.Label(window, text="Check how strong is your password", font=("Arial", 16))
+        lbl.grid(column=0, row=0, padx=10, pady=10)
+
+        #window.withdraw()
+
+        def process_file():
+            file_path_input = choose_file()
+            if file_path_input:
+                file_path_rockyou = os.path.join(os.path.dirname(__file__), 'rockyou.txt')
+                if not os.path.exists(file_path_input):
+                    print(f"File does NOT exist: {file_path_input}")
+                else:
+                    print(f"File FOUND: {file_path_input}")
+
+                print("Checking if password is valid...")
+                password, min_length, max_length = read_parameters(file_path_input)
+                sleep(3)
+                if validate_password(password, min_length, max_length):
+                    print("The password length is valid.")
+                else:
+                    print("The password length is invalid.")
+
+                print("Checking if password is common...")
+                common_password = password_wordslist(password, file_path_rockyou)
+                sleep(3)
+                if common_password:
+                    print("The password is common.")
+                else:
+                    print("The password is not common.")
+
+                print("Checking the complexity of the password...")
+                sleep(3)
+                print(check_password_complexity(password))
+
+                #crack_password(password)
+
+        btn = tk.Button(window, text="Choose File", command=process_file)
+        btn.grid(column=0, row=1, padx=10, pady=10)
+
+        window.mainloop()
 
     except Exception as e:
         print(f"Error: {e}")
