@@ -108,12 +108,21 @@ def main():
         window = Tk()
         window.geometry("400x300")
         window.title("Password Checker")
+        window.configure(bg="#2E3B4E")
 
         #icon = PhotoImage(file="logo.jpg")
         #window.iconphoto(True, icon)
 
-        lbl = tk.Label(window, text="Check how strong is your password", font=("Arial", 16))
-        lbl.grid(column=0, row=0, padx=10, pady=10)
+        lbl = tk.Label(
+            window,
+            text="Check how strong is your password",
+            font=("Arial", 16, "bold"),
+            fg="white",
+            bg="#2E3B4E",
+            padx=20,
+            pady=10
+        )
+        lbl.grid(column=0, row=0, padx=10, pady=20)
 
         #window.withdraw()
 
@@ -148,8 +157,21 @@ def main():
 
                 #crack_password(password)
 
-        btn = tk.Button(window, text="Choose File", command=process_file)
-        btn.grid(column=0, row=1, padx=10, pady=10)
+        btn = tk.Button(
+            window,
+            text="Choose File",
+            font=("Arial", 14),
+            bg="#4CAF50",
+            fg="white",
+            activebackground="#45A049",
+            activeforeground="white",
+            padx=10,
+            pady=5,
+            relief="groove",
+            borderwidth=3,
+            command=process_file
+        )
+        btn.grid(column=0, row=1, padx=10, pady=20)
 
         window.mainloop()
 
