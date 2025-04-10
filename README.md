@@ -18,7 +18,22 @@ You can either download this content or use `git clone` and open the program in 
 
 ## **How to start**
 
-TODO
+Before running the program, make sure you have Python installed on your machine and 
+install the packages necessary to run the program.
+When you run the program, a window will open where you can select the txt file with the password and its parameters.
+
+![App](images/app.png)
+
+The file must be in the following format:
+The first line must contain the password to be checked,
+the second line must contain the minimum length of the password
+and the third line must contain the maximum length.
+
+![File](images/file.png)
+
+After selecting the file, the program will pass through various verifications and give you a result.
+
+![Result](images/output.png)
 
 ## **Parameters**
 

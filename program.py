@@ -4,6 +4,7 @@ from hashlib import sha256
 from tkinter import *
 import tkinter as tk
 from tkinter import filedialog
+from colorama import Back, Fore, Style
 
 '''
 * Function to read the password and its length requirements from a file.
@@ -54,12 +55,12 @@ def password_wordslist(password, file_path_rockyou):
 def check_password_complexity(password):
     count_complexity = 0
     conditions = [
-        (len(password) > 8, "Password is too short."),
-        (any(char.isdigit() for char in password), "The password does not contain digits."),
-        (any(char.isupper() for char in password), "The password does not contain uppercase letters."),
-        (any(char.islower() for char in password), "The password does not contain lowercase letters."),
+        (len(password) > 8, Fore.YELLOW + "Password is too short."),
+        (any(char.isdigit() for char in password), Fore.YELLOW + "The password does not contain digits."),
+        (any(char.isupper() for char in password), Fore.YELLOW + "The password does not contain uppercase letters."),
+        (any(char.islower() for char in password), Fore.YELLOW + "The password does not contain lowercase letters."),
         (any(char in '!@#$%^&*()-_=+[]{}|;:,.<>?/' for char in password),
-         "The password does not contain special characters.")
+         Fore.YELLOW + "The password does not contain special characters.")
     ]
 
     for condition, message in conditions:
@@ -68,15 +69,15 @@ def check_password_complexity(password):
         else:
             print(message)
     if count_complexity == 1:
-        return "The password is weak."
+        return Fore.LIGHTRED_EX + "The password is weak."
     elif count_complexity == 2:
-        return "The password is medium."
+        return Fore.LIGHTYELLOW_EX + "The password is medium."
     elif count_complexity == 3:
-        return "The password is strong."
+        return Fore.LIGHTGREEN_EX + "The password is strong."
     elif count_complexity == 4:
-        return "The password is very strong."
+        return Fore.GREEN + "The password is very strong."
     elif count_complexity == 5:
-        return "The password is extremely strong."
+        return Fore.MAGENTA + "The password is extremely strong."
     else:
         return "The password does not meet any complexity requirements."
 
@@ -135,23 +136,23 @@ def main():
                 else:
                     print(f"File FOUND: {file_path_input}")
 
-                print("Checking if password is valid...")
+                print(Fore.CYAN + "Checking if password is valid...")
                 password, min_length, max_length = read_parameters(file_path_input)
                 sleep(3)
                 if validate_password(password, min_length, max_length):
-                    print("The password length is valid.")
+                    print(Fore.GREEN + "The password length is valid.")
                 else:
-                    print("The password length is invalid.")
+                    print(Fore.RED + "The password length is invalid.")
 
-                print("Checking if password is common...")
+                print(Fore.CYAN + "Checking if password is common...")
                 common_password = password_wordslist(password, file_path_rockyou)
                 sleep(3)
                 if common_password:
-                    print("The password is common.")
+                    print(Fore.RED + "The password is common.")
                 else:
-                    print("The password is not common.")
+                    print(Fore.GREEN + "The password is not common.")
 
-                print("Checking the complexity of the password...")
+                print(Fore.CYAN + "Checking the complexity of the password...")
                 sleep(3)
                 print(check_password_complexity(password))
 
