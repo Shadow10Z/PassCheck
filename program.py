@@ -1,17 +1,18 @@
 import os
 from time import sleep
-from hashlib import sha256
 from tkinter import *
 import tkinter as tk
 from tkinter import filedialog
-from colorama import Back, Fore, Style
+from colorama import Fore
 
 '''
+---------------------------------------------------------------------------
 * Function to read the password and its length requirements from a file.
 * The first line of the file should contain the password.
 * The second line should contain the minimum length.
 * The third line should contain the maximum length.
 * The function @returns the password, minimum length, and maximum length.
+---------------------------------------------------------------------------
 '''
 def read_parameters(file_path):
     with open(file_path, 'r') as file:
@@ -25,25 +26,33 @@ def read_parameters(file_path):
     return password, min_length, max_length
 
 '''
+---------------------------------------------------------------------------
 * Function to validate the password length based on the given minimum and maximum length.
 * The function @returns True if the password length is valid, otherwise False.
+---------------------------------------------------------------------------
 '''
 def validate_password(password, min_length, max_length):
     if min_length <= len(password) <= max_length:
-        return True
+        return Fore.GREEN + "The password length is valid."
     else:
-        return False
+        return Fore.RED + "The password length is invalid."
 
+'''
+---------------------------------------------------------------------------
+* Function to check if the password is in the common passwords list (rockyou.txt).
+---------------------------------------------------------------------------
+'''
 def password_wordslist(password, file_path_rockyou):
     with open(file_path_rockyou, 'r', encoding='UTF-8') as file:
         lines = file.readlines()
         common_passwords = [line.strip() for line in lines[3:]]
     if password in common_passwords:
-        return True
+        return Fore.RED + "The password is common."
     else:
-        return False
+        return Fore.GREEN + "The password is not common."
 
 '''
+---------------------------------------------------------------------------
 * Function to check the complexity of the password based on the following criteria:
 * 1. Length: At least 8 characters.
 * 2. Contains at least one digit.
@@ -51,6 +60,7 @@ def password_wordslist(password, file_path_rockyou):
 * 4. Contains at least one lowercase letter.
 * 5. Contains at least one special character.
 * The function @returns a message indicating the complexity level of the password.
+---------------------------------------------------------------------------
 '''
 def check_password_complexity(password):
     count_complexity = 0
@@ -79,17 +89,40 @@ def check_password_complexity(password):
     elif count_complexity == 5:
         return Fore.MAGENTA + "The password is extremely strong."
     else:
-        return "The password does not meet any complexity requirements."
-
-#TODO - Add a function to crack the password using brute force.
-'''
-def crack_password(password):
-    print(sha256(password.encode()).hexdigest())
-    sha256()
-'''
+        return Fore.RED + "The password does not meet any complexity requirements."
 
 '''
+---------------------------------------------------------------------------
+* Function to check if the password contains too many repeated characters.
+---------------------------------------------------------------------------
+'''
+def check_repeated_characters(password, max_repeats=4):
+    count = 1
+    for i in range(1, len(password)):
+        if password[i] == password[i-1]:
+            count += 1
+            if count >= max_repeats:
+                return Fore.RED + "Password contains too many repeated characters."
+        else:
+            count = 1
+
+    return Fore.GREEN + "Password does not contain too many repeated characters."
+
+'''
+---------------------------------------------------------------------------
+* Function to check if the password is a palindrome.
+---------------------------------------------------------------------------
+'''
+def check_palindrome(password):
+    if password == password[::-1]:
+        return Fore.RED + "Password is a palindrome."
+    else:
+        return Fore.GREEN + "Password is not a palindrome."
+
+'''
+---------------------------------------------------------------------------
 * Function to open a file dialog and select a file.
+---------------------------------------------------------------------------
 '''
 def choose_file():
     filetypes = [("Text files", "*.txt"), ("All files", "*.*")]
@@ -101,7 +134,9 @@ def choose_file():
     return file_path
 
 '''
+---------------------------------------------------------------------------
 * Main function to execute the password validation program.
+---------------------------------------------------------------------------
 '''
 def main():
     try:
@@ -136,27 +171,34 @@ def main():
                 else:
                     print(f"File FOUND: {file_path_input}")
 
+                # Checks if the content in the file is valid
                 print(Fore.CYAN + "Checking if password is valid...")
                 password, min_length, max_length = read_parameters(file_path_input)
-                sleep(3)
-                if validate_password(password, min_length, max_length):
-                    print(Fore.GREEN + "The password length is valid.")
-                else:
-                    print(Fore.RED + "The password length is invalid.")
 
+                # First Verification
+                print(Fore.CYAN + "Checking the length of the password...")
+                sleep(3)
+                print(validate_password(password, min_length, max_length))
+
+                # Second Verification
                 print(Fore.CYAN + "Checking if password is common...")
-                common_password = password_wordslist(password, file_path_rockyou)
                 sleep(3)
-                if common_password:
-                    print(Fore.RED + "The password is common.")
-                else:
-                    print(Fore.GREEN + "The password is not common.")
+                print(password_wordslist(password, file_path_rockyou))
 
+                # Third Verification
                 print(Fore.CYAN + "Checking the complexity of the password...")
                 sleep(3)
                 print(check_password_complexity(password))
 
-                #crack_password(password)
+                # Fourth Verification
+                print(Fore.CYAN + "Checking for repeated characters...")
+                sleep(3)
+                print(check_repeated_characters(password))
+
+                # Fifth Verification
+                print(Fore.CYAN + "Checking if password is a palindrome...")
+                sleep(3)
+                print(check_palindrome(password))
 
         btn = tk.Button(
             window,

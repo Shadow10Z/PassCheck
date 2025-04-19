@@ -46,3 +46,5 @@ Function | Explanation
 `validate_password` | Checks if the password is within the length given.
 `password_wordslist` | Checks if the password is in a common wordslist from Kali Linux called rockyou.
 `check_password_complexity`| Determines how strong is the password based on some conditions: length, if it has as least one digit, uppercase and lowercase letters and special characters.
+`check_repeated_characters` | Checks if the password has repeated characters.
+`check_palindrome` | Checks if the password is a palindrome. A palindrome is a word, phrase, number, or other sequence of characters that reads the same forward and backward.
