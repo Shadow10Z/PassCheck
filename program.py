@@ -80,6 +80,8 @@ def main():
                 sleep(3)
                 print(check_palindrome(password))
 
+                window.destroy()
+
         btn = tk.Button(
             window,
             text="Choose File",
