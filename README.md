@@ -20,7 +20,7 @@ You can either download this content or use `git clone` and open the program in 
 
 Before running the program, make sure you have Python installed on your machine and 
 install the packages necessary to run the program.
-When you run the program, a window will open where you can select the txt file with the password and its parameters.
+The file to run is `program.py` and when you do it, a window will open where you can select the txt file with the password and its parameters.
 
 ![App](images/app.png)
 
@@ -39,12 +39,12 @@ After selecting the file, the program will pass through various verifications an
 
 Here's a complete graphic showing what verifications are made to the given password:
 
-Function | Explanation
-:---: | ---
-`choose_file` | Function used to open a file dialog and insert the txt file.
-`read_parameters` | Reads the password and its length requirements.
-`validate_password` | Checks if the password is within the length given.
-`password_wordslist` | Checks if the password is in a common wordslist from Kali Linux called rockyou.
-`check_password_complexity`| Determines how strong is the password based on some conditions: length, if it has as least one digit, uppercase and lowercase letters and special characters.
-`check_repeated_characters` | Checks if the password has repeated characters.
-`check_palindrome` | Checks if the password is a palindrome. A palindrome is a word, phrase, number, or other sequence of characters that reads the same forward and backward.
+|          Function           | Explanation                                                                                                                                                   |
+|:---------------------------:|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|        `choose_file`        | Function used to open a file dialog and insert the txt file.                                                                                                  |
+|      `read_parameters`      | Reads the password and its length requirements.                                                                                                               |
+|     `validate_password`     | Checks if the password is within the length given.                                                                                                            |
+|    `password_wordslist`     | Checks if the password is in a common wordslist from Kali Linux called rockyou.                                                                               |
+| `check_password_complexity` | Determines how strong is the password based on some conditions: length, if it has as least one digit, uppercase and lowercase letters and special characters. |
+| `check_repeated_characters` | Checks if the password has repeated characters.                                                                                                               |
+|     `check_palindrome`      | Checks if the password is a palindrome. A palindrome is a word, phrase, number, or other sequence of characters that reads the same forward and backward.     |
